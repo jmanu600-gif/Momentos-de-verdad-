@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Momentos de Verdad - Experiencia del Cliente</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            width: 100%;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .moments-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 40px;
+            width: 100%;
+        }
+        
+        .moment-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .moment-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        .moment-number {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .moment-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .moment-title {
+            font-size: 1.6rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .moment-icon {
+            margin-right: 15px;
+            font-size: 1.8rem;
+            color: #3498db;
+            width: 40px;
+            text-align: center;
+        }
+        
+        .moment-phase {
+            font-size: 1rem;
+            color: #7f8c8d;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .moment-content {
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+        
+        .moment-content p {
+            margin-bottom: 15px;
+        }
+        
+        /* Colores diferenciados para cada momento */
+        #momento-necesidad {
+            border-top: 5px solid #3498db;
+        }
+        
+        #momento-necesidad .moment-icon {
+            color: #3498db;
+        }
+        
+        #momento-necesidad .moment-number {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+        
+        #momento-investigacion {
+            border-top: 5px solid #2ecc71;
+        }
+        
+        #momento-investigacion .moment-icon {
+            color: #2ecc71;
+        }
+        
+        #momento-investigacion .moment-number {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+        }
+        
+        #momento-verdad {
+            border-top: 5px solid #e74c3c;
+        }
+        
+        #momento-verdad .moment-icon {
+            color: #e74c3c;
+        }
+        
+        #momento-verdad .moment-number {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+        
+        #momento-despues-compra {
+            border-top: 5px solid #9b59b6;
+        }
+        
+        #momento-despues-compra .moment-icon {
+            color: #9b59b6;
+        }
+        
+        #momento-despues-compra .moment-number {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        }
+        
+        .visual-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 40px 0;
+            width: 100%;
+            max-width: 900px;
+        }
+        
+        .diagram-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .diagram-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            position: relative;
+        }
+        
+        .diagram-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 22%;
+            text-align: center;
+            z-index: 2;
+        }
+        
+        .step-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .step-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .step-arrow {
+            position: absolute;
+            top: 40px;
+            font-size: 2rem;
+            color: #3498db;
+            z-index: 1;
+        }
+        
+        .arrow-1 {
+            left: 20%;
+        }
+        
+        .arrow-2 {
+            left: 45%;
+        }
+        
+        .arrow-3 {
+            left: 70%;
+        }
+        
+        .process-flow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 40px 0;
+            width: 100%;
+            max-width: 900px;
+        }
+        
+        .flow-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .flow-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            width: 100%;
+        }
+        
+        .flow-item {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            width: 220px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+        }
+        
+        .flow-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .flow-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+        
+        .flow-name {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: #7f8c8d;
+        }
+        
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            padding: 20px;
+            border-top: 1px solid #ddd;
+            width: 100%;
+        }
+        
+        .page-info {
+            font-size: 1rem;
+            color: #3498db;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        @media (max-width: 992px) {
+            .diagram-container {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 40px;
+            }
+            
+            .diagram-step {
+                width: 45%;
+            }
+            
+            .step-arrow {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .moment-card {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .diagram-step {
+                width: 100%;
+                margin-bottom: 30px;
+            }
+            
+            .flow-item {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Momentos de Verdad</h1>
+            <p class="subtitle">Experiencia del cliente en el proceso de entrenamiento personal - Fases clave en la interacción y satisfacción del usuario</p>
+        </header>
+        
+        <div class="visual-diagram">
+            <h2 class="diagram-title">Proceso de Interacción con el Cliente</h2>
+            <div class="diagram-container">
+                <div class="diagram-step">
+                    <div class="step-circle" style="background: linear-gradient(135deg, #3498db, #2980b9);">1</div>
+                    <div class="step-title">Momento de Necesidad</div>
+                    <p>Identificación inicial</p>
+                </div>
+                
+                <div class="step-arrow arrow-1"><i class="fas fa-arrow-right"></i></div>
+                
+                <div class="diagram-step">
+                    <div class="step-circle" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">2</div>
+                    <div class="step-title">Momento de Investigación</div>
+                    <p>Comprensión mutua</p>
+                </div>
+                
+                <div class="step-arrow arrow-2"><i class="fas fa-arrow-right"></i></div>
+                
+                <div class="diagram-step">
+                    <div class="step-circle" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">3</div>
+                    <div class="step-title">Momento de Verdad</div>
+                    <p>Experiencia en vivo</p>
+                </div>
+                
+                <div class="step-arrow arrow-3"><i class="fas fa-arrow-right"></i></div>
+                
+                <div class="diagram-step">
+                    <div class="step-circle" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">4</div>
+                    <div class="step-title">Después de la Compra</div>
+                    <p>Satisfacción y fidelización</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="moments-container">
+            <div class="moment-card" id="momento-necesidad">
+                <div class="moment-number">1</div>
+                <div class="moment-header">
+                    <div class="moment-title">
+                        <div class="moment-icon"><i class="fas fa-search"></i></div>
+                        MOMENTO DE NECESIDAD
+                    </div>
+                    <div class="moment-phase">Fase de identificación inicial</div>
+                </div>
+                <div class="moment-content">
+                    <p>Saludo cordial, se identifica la necesidad del cliente (bajar de peso, hipertrofia, mejor salud física).</p>
+                    <p>En esta fase inicial, se establece el primer contacto y se reconoce el objetivo principal que trae al cliente al servicio de entrenamiento personal.</p>
+                </div>
+            </div>
+            
+            <div class="moment-card" id="momento-investigacion">
+                <div class="moment-number">2</div>
+                <div class="moment-header">
+                    <div class="moment-title">
+                        <div class="moment-icon"><i class="fas fa-clipboard-check"></i></div>
+                        MOMENTO DE INVESTIGACIÓN
+                    </div>
+                    <div class="moment-phase">Fase de comprensión mutua</div>
+                </div>
+                <div class="moment-content">
+                    <p>Se comprende al cliente y se hace una explicación clara. Este indagará opciones. Hay un entendimiento mutuo por parte y parte.</p>
+                    <p>En esta etapa, se profundiza en las expectativas del cliente, se explican las opciones disponibles y se establece una comunicación bidireccional para asegurar que ambas partes están alineadas.</p>
+                </div>
+            </div>
+            
+            <div class="moment-card" id="momento-verdad">
+                <div class="moment-number">3</div>
+                <div class="moment-header">
+                    <div class="moment-title">
+                        <div class="moment-icon"><i class="fas fa-dumbbell"></i></div>
+                        MOMENTO DE VERDAD
+                    </div>
+                    <div class="moment-phase">Fase de experiencia en vivo</div>
+                </div>
+                <div class="moment-content">
+                    <p>Se da una experiencia en vivo al usuario desde un acompañamiento en la técnica del ejercicio, calidad de servicio y seguridad y confianza en la sesión. El cliente analizará si valdrá la pena.</p>
+                    <p>Este es el momento crucial donde el cliente experimenta directamente el servicio y evalúa si cumple con sus expectativas y necesidades.</p>
+                </div>
+            </div>
+            
+            <div class="moment-card" id="momento-despues-compra">
+                <div class="moment-number">4</div>
+                <div class="moment-header">
+                    <div class="moment-title">
+                        <div class="moment-icon"><i class="fas fa-handshake"></i></div>
+                        MOMENTO DESPUÉS DE LA COMPRA
+                    </div>
+                    <div class="moment-phase">Fase de satisfacción y fidelización</div>
+                </div>
+                <div class="moment-content">
+                    <p>El cliente se da cuenta que más usuarios quieren asesoría, yo como entrenador doy esa asesoría a un buen precio y se garantiza un servicio oportuno y efectivo. Se cierra con una calurosa y genuina despedida.</p>
+                    <p>Esta fase final busca consolidar la relación, asegurar la satisfacción del cliente y abrir la posibilidad a recomendaciones y futuros servicios.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="process-flow">
+            <h2 class="flow-title">Flujo de los Momentos de Verdad</h2>
+            <div class="flow-container">
+                <div class="flow-item">
+                    <div class="flow-number">01</div>
+                    <div class="flow-name">Momento de Necesidad</div>
+                    <p>Identificación inicial del cliente</p>
+                </div>
+                
+                <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                
+                <div class="flow-item">
+                    <div class="flow-number">02</div>
+                    <div class="flow-name">Momento de Investigación</div>
+                    <p>Comprensión y explicación mutua</p>
+                </div>
+                
+                <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                
+                <div class="flow-item">
+                    <div class="flow-number">04</div>
+                    <div class="flow-name">Momento Después de la Compra</div>
+                    <p>Satisfacción y fidelización</p>
+                </div>
+                
+                <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                
+                <div class="flow-item">
+                    <div class="flow-number">03</div>
+                    <div class="flow-name">Momento de Verdad</div>
+                    <p>Experiencia en vivo del servicio</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Página 3 de 4 — Q +</p>
+            <p class="page-info">Modelo de Momentos de Verdad en el servicio de entrenamiento personal</p>
+        </footer>
+    </div>
+
+    <script>
+        // Agregar interactividad a las tarjetas
+        document.querySelectorAll('.moment-card').forEach(card => {
+            card.addEventListener('click', function() {
+                // Resaltar la tarjeta clickeada
+                this.style.transform = 'scale(1.03)';
+                this.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.2)';
+                
+                // Quitar el resaltado después de un momento
+                setTimeout(() => {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                }, 300);
+                
+                // Mostrar en consola qué momento fue clickeado
+                const cardId = this.id;
+                const momentNames = {
+                    'momento-necesidad': 'Momento de Necesidad',
+                    'momento-investigacion': 'Momento de Investigación',
+                    'momento-verdad': 'Momento de Verdad',
+                    'momento-despues-compra': 'Momento Después de la Compra'
+                };
+                console.log(`Momento clickeado: ${momentNames[cardId]}`);
+            });
+        });
+        
+        // Efecto de aparición al cargar la página
+        window.addEventListener('load', function() {
+            document.querySelector('.container').style.opacity = '0';
+            document.querySelector('.container').style.transition = 'opacity 1s';
+            
+            setTimeout(() => {
+                document.querySelector('.container').style.opacity = '1';
+            }, 100);
+            
+            // Animar las tarjetas una por una
+            const cards = document.querySelectorAll('.moment-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'opacity 0.8s, transform 0.8s';
+                
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 300 + (index * 200));
+            });
+            
+            // Animar los elementos del diagrama
+            const steps = document.querySelectorAll('.diagram-step');
+            steps.forEach((step, index) => {
+                step.style.opacity = '0';
+                step.style.transform = 'scale(0.8)';
+                step.style.transition = 'opacity 0.8s, transform 0.8s';
+                
+                setTimeout(() => {
+                    step.style.opacity = '1';
+                    step.style.transform = 'scale(1)';
+                }, 500 + (index * 300));
+            });
+        });
+    </script>
+</body>
+</html>
