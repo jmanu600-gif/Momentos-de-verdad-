@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Pirámide de Maslow Personal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            width: 100%;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .pyramid-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+        
+        .pyramid-level {
+            width: 90%;
+            max-width: 800px;
+            margin: 5px 0;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pyramid-level:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .level-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .level-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .level-icon {
+            margin-right: 15px;
+            font-size: 1.8rem;
+            width: 50px;
+            text-align: center;
+        }
+        
+        .level-number {
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .level-content {
+            padding-left: 65px;
+        }
+        
+        .goal-list {
+            list-style-type: none;
+        }
+        
+        .goal-list li {
+            margin-bottom: 8px;
+            padding-left: 25px;
+            position: relative;
+            line-height: 1.5;
+        }
+        
+        .goal-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        /* Colores específicos para cada nivel */
+        #fisiologicas {
+            background: linear-gradient(to right, #3498db, #2980b9);
+            color: white;
+        }
+        
+        #seguridad {
+            background: linear-gradient(to right, #2ecc71, #27ae60);
+            color: white;
+        }
+        
+        #afiliacion {
+            background: linear-gradient(to right, #f39c12, #e67e22);
+            color: white;
+        }
+        
+        #reconocimiento {
+            background: linear-gradient(to right, #9b59b6, #8e44ad);
+            color: white;
+        }
+        
+        #autorrealizacion {
+            background: linear-gradient(to right, #e74c3c, #c0392b);
+            color: white;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .pyramid-level {
+                width: 95%;
+                padding: 15px 20px;
+            }
+            
+            .level-title {
+                font-size: 1.3rem;
+            }
+            
+            .level-content {
+                padding-left: 0;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+        }
+        
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            padding: 20px;
+            border-top: 1px solid #ddd;
+            width: 100%;
+        }
+        
+        .pyramid-visual {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+            width: 100%;
+        }
+        
+        .visual-pyramid {
+            width: 300px;
+            height: 250px;
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .pyramid-layer {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 100px solid transparent;
+            border-right: 100px solid transparent;
+            border-bottom: 40px solid;
+        }
+        
+        #layer1 {
+            bottom: 0;
+            border-bottom-color: #3498db;
+            width: 300px;
+            z-index: 5;
+        }
+        
+        #layer2 {
+            bottom: 40px;
+            border-bottom-color: #2ecc71;
+            width: 250px;
+            z-index: 4;
+        }
+        
+        #layer3 {
+            bottom: 80px;
+            border-bottom-color: #f39c12;
+            width: 200px;
+            z-index: 3;
+        }
+        
+        #layer4 {
+            bottom: 120px;
+            border-bottom-color: #9b59b6;
+            width: 150px;
+            z-index: 2;
+        }
+        
+        #layer5 {
+            bottom: 160px;
+            border-bottom-color: #e74c3c;
+            width: 100px;
+            z-index: 1;
+        }
+        
+        .layer-label {
+            position: absolute;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            width: 100%;
+            font-size: 0.8rem;
+        }
+        
+        #label1 {
+            bottom: 10px;
+        }
+        
+        #label2 {
+            bottom: 50px;
+        }
+        
+        #label3 {
+            bottom: 90px;
+        }
+        
+        #label4 {
+            bottom: 130px;
+        }
+        
+        #label5 {
+            bottom: 170px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Mi Pirámide de Maslow Personal</h1>
+            <p class="subtitle">Una representación visual de mis metas y aspiraciones organizadas según la jerarquía de necesidades de Abraham Maslow.</p>
+        </header>
+        
+        <div class="pyramid-visual">
+            <div class="visual-pyramid">
+                <div class="pyramid-layer" id="layer1"></div>
+                <div class="layer-label" id="label1">Fisiológicas</div>
+                
+                <div class="pyramid-layer" id="layer2"></div>
+                <div class="layer-label" id="label2">Seguridad</div>
+                
+                <div class="pyramid-layer" id="layer3"></div>
+                <div class="layer-label" id="label3">Afiliación</div>
+                
+                <div class="pyramid-layer" id="layer4"></div>
+                <div class="layer-label" id="label4">Reconocimiento</div>
+                
+                <div class="pyramid-layer" id="layer5"></div>
+                <div class="layer-label" id="label5">Autorrealización</div>
+            </div>
+            <p>La pirámide visual muestra la jerarquía de necesidades, desde las básicas (abajo) hasta las más elevadas (arriba).</p>
+        </div>
+        
+        <div class="pyramid-container">
+            <div class="pyramid-level" id="autorrealizacion">
+                <div class="level-header">
+                    <div class="level-title">
+                        <div class="level-icon"><i class="fas fa-star"></i></div>
+                        Necesidades de Autorrealización
+                    </div>
+                    <div class="level-number">5</div>
+                </div>
+                <div class="level-content">
+                    <ul class="goal-list">
+                        <li>Mejor relación con la religión</li>
+                        <li>Mejor habla y atención con las personas de mi ambiente estudiantil y laboral</li>
+                        <li>Alcanzar mi límite en el ejercicio físicamente</li>
+                        <li>Ayudar a otros a alcanzar sus límites como entrenador</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pyramid-level" id="reconocimiento">
+                <div class="level-header">
+                    <div class="level-title">
+                        <div class="level-icon"><i class="fas fa-trophy"></i></div>
+                        Necesidades de Reconocimiento
+                    </div>
+                    <div class="level-number">4</div>
+                </div>
+                <div class="level-content">
+                    <ul class="goal-list">
+                        <li>Quererme a mí mismo desde un tema mental (Meditación)</li>
+                        <li>Cuidar mi higiene (Aseo, corte de pelo, ropa y equipaciones)</li>
+                        <li>Lograr un tecnólogo en actividad física</li>
+                        <li>Lograr una carrera profesional en Fisioterapia</li>
+                        <li>Pasar de un estrato 2 a un estrato 4 (Vivienda, moto, mi propio gimnasio)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pyramid-level" id="afiliacion">
+                <div class="level-header">
+                    <div class="level-title">
+                        <div class="level-icon"><i class="fas fa-users"></i></div>
+                        Necesidades de Afiliación
+                    </div>
+                    <div class="level-number">3</div>
+                </div>
+                <div class="level-content">
+                    <ul class="goal-list">
+                        <li>Tener relaciones personales y amistosas en diferentes ámbitos (SENA, trabajo, gimnasio y conjunto)</li>
+                        <li>Mi familia como núcleo fundamental (Hermano y papá)</li>
+                        <li>Pertenecer a un grupo de estudio</li>
+                        <li>Pertenecer a un grupo de trabajo</li>
+                        <li>Participar en eventos familiares</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pyramid-level" id="seguridad">
+                <div class="level-header">
+                    <div class="level-title">
+                        <div class="level-icon"><i class="fas fa-shield-alt"></i></div>
+                        Necesidades de Seguridad y Protección
+                    </div>
+                    <div class="level-number">2</div>
+                </div>
+                <div class="level-content">
+                    <ul class="goal-list">
+                        <li>Estar afiliado a una EPS</li>
+                        <li>Cotizar una pensión</li>
+                        <li>Contar con un seguro todo riesgo</li>
+                        <li>Mi trabajo como entrenador con ingreso seguro quincenalmente</li>
+                        <li>Mi apartamento propio</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pyramid-level" id="fisiologicas">
+                <div class="level-header">
+                    <div class="level-title">
+                        <div class="level-icon"><i class="fas fa-heartbeat"></i></div>
+                        Necesidades Fisiológicas
+                    </div>
+                    <div class="level-number">1</div>
+                </div>
+                <div class="level-content">
+                    <ul class="goal-list">
+                        <li>Buena respiración</li>
+                        <li>Buen hábito del sueño</li>
+                        <li>Buena nutrición (desayuno, almuerzo y cena)</li>
+                        <li>Consumo adecuado de proteínas, carbohidratos y verduras</li>
+                        <li>Ir al baño regularmente</li>
+                        <li>Hidratarme bien</li>
+                        <li>Mantener elementos de higiene personal</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Página 4 de 4 | Diseño personalizado basado en la Pirámide de Maslow</p>
+            <p>Metas y aspiraciones personales - Visualización interactiva</p>
+        </footer>
+    </div>
+
+    <script>
+        // Agregar interactividad a los niveles de la pirámide
+        document.querySelectorAll('.pyramid-level').forEach(level => {
+            level.addEventListener('click', function() {
+                // Resaltar el nivel clickeado
+                this.style.transform = 'scale(1.02)';
+                this.style.boxShadow = '0 15px 30px rgba(0, 0, 0, 0.2)';
+                
+                // Quitar el resaltado después de un momento
+                setTimeout(() => {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                }, 300);
+                
+                // Mostrar en consola qué nivel fue clickeado
+                const levelId = this.id;
+                const levelNames = {
+                    'fisiologicas': 'Necesidades Fisiológicas',
+                    'seguridad': 'Necesidades de Seguridad',
+                    'afiliacion': 'Necesidades de Afiliación',
+                    'reconocimiento': 'Necesidades de Reconocimiento',
+                    'autorrealizacion': 'Necesidades de Autorrealización'
+                };
+                console.log(`Nivel clickeado: ${levelNames[levelId]}`);
+            });
+        });
+        
+        // Efecto de aparición al cargar la página
+        window.addEventListener('load', function() {
+            document.querySelector('.container').style.opacity = '0';
+            document.querySelector('.container').style.transition = 'opacity 1s';
+            
+            setTimeout(() => {
+                document.querySelector('.container').style.opacity = '1';
+            }, 100);
+            
+            // Animar los niveles uno por uno
+            const levels = document.querySelectorAll('.pyramid-level');
+            levels.forEach((level, index) => {
+                level.style.opacity = '0';
+                level.style.transform = 'translateY(20px)';
+                level.style.transition = 'opacity 0.8s, transform 0.8s';
+                
+                setTimeout(() => {
+                    level.style.opacity = '1';
+                    level.style.transform = 'translateY(0)';
+                }, 300 + (index * 200));
+            });
+        });
+    </script>
+</body>
+</html>
